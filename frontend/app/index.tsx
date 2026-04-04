@@ -35,7 +35,7 @@ export default function WelcomeScreen() {
       {/* Logo Section */}
       <View style={styles.logoSection}>
         <Image
-          source={require('../assets/logo-full.png')}
+          source={require('../assets/logo-light.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: width * 0.8,
-    height: 120,
+    width: width * 0.95,
+    height: 220,
   },
   contentSection: {
     flex: 1,

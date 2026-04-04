@@ -39,7 +39,7 @@ export default function ProfileScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.authPrompt}>
           <Image
-            source={require('../../assets/logo-full.png')}
+            source={require('../../assets/logo-light.png')}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -256,8 +256,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   logo: {
-    width: width * 0.5,
-    height: 100,
+    width: width * 0.6,
+    height: 120,
     marginBottom: 24,
   },
   authTitle: {

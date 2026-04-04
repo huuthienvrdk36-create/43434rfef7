@@ -78,7 +78,7 @@ export default function HomeScreen() {
         {/* Header with Logo */}
         <View style={styles.header}>
           <Image
-            source={require('../../assets/logo-full.png')}
+            source={require('../../assets/logo-light.png')}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -217,8 +217,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: width * 0.6,
-    height: 80,
+    width: width * 0.7,
+    height: 100,
   },
   greeting: {
     fontSize: 16,
