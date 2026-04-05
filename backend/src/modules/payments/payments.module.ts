@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { PaymentSchema } from './payment.schema';
+import { PaymentTransactionSchema } from './payment-transaction.schema';
 import { PaymentsService } from './payments.service';
 import { PaymentsController } from './payments.controller';
+import { StripeService } from './stripe.service';
 import { BookingSchema } from '../bookings/booking.schema';
 import { UserSchema } from '../users/user.schema';
 
@@ -11,6 +13,7 @@ import { UserSchema } from '../users/user.schema';
   imports: [
     MongooseModule.forFeature([
       { name: 'Payment', schema: PaymentSchema },
+      { name: 'PaymentTransaction', schema: PaymentTransactionSchema },
       { name: 'Booking', schema: BookingSchema },
       { name: 'User', schema: UserSchema },
     ]),
@@ -22,7 +25,7 @@ import { UserSchema } from '../users/user.schema';
     }),
   ],
   controllers: [PaymentsController],
-  providers: [PaymentsService],
-  exports: [PaymentsService],
+  providers: [PaymentsService, StripeService],
+  exports: [PaymentsService, StripeService],
 })
 export class PaymentsModule {}

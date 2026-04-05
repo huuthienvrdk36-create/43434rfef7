@@ -10,6 +10,7 @@ import { PaymentSchema } from '../payments/payment.schema';
 import { DisputeSchema } from '../disputes/dispute.schema';
 import { QuoteSchema } from '../quotes/quote.schema';
 import { ReviewSchema } from '../reviews/review.schema';
+import { PlatformConfigSchema } from '../platform-config/platform-config.schema';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ReviewSchema } from '../reviews/review.schema';
       { name: 'Dispute', schema: DisputeSchema },
       { name: 'Quote', schema: QuoteSchema },
       { name: 'Review', schema: ReviewSchema },
+      { name: 'PlatformConfig', schema: PlatformConfigSchema },
     ]),
     JwtModule.registerAsync({
       useFactory: () => ({

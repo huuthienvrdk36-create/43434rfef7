@@ -1,0 +1,176 @@
+<analysis>**original_problem_statement:** 
+The user is building a comprehensive automotive service marketplace platform. The initial requests in this session involved finishing the core logic (Payments, Disputes, Admin panel), implementing Production Hardening (Rate limiting, TTLs, Indexes), and integrating/fixing a provided app logo. After a full architectural audit, the user provided a rigorous Production-Ready roadmap. The platform is currently ~60% ready and lacks a real financial lifecycle, a time/slot booking system, real geo-search, push notifications, and a complete mobile UI. 
+PRODUCT REQUIREMENTS (Final Phase): 
+- Sprint 1: Real Payments (Stripe integration, webhooks, intents) + Booking Time System (Slots, provider availability, conflict checks).
+- Sprint 2: User Retention (Firebase Push Notifications, Garage smart loops, real Geo radius search).
+- Sprint 3: Mobile Core (15+ Expo screens covering the complete customer/provider flow).
+- Sprint 4: Provider Economics & Admin Control (Ranking tuning, analytics, logging, rate limiting).
+
+**User's preferred language**: **Russian** (You MUST respond to the user in Russian only).
+
+**what currently exists?** 
+- A robust NestJS backend with modules for Auth, Users, Organizations, Services, Quotes, Bookings, Reviews, and basic Admin functions. 
+- Production hardening features like exception filters, rate limiting, and quote TTLs (24h) are added.
+- An Expo Mobile App (frontend) with a bottom-tab layout, basic authentication, and successfully integrated UI logos. 
+- *Crucially*, payments are currently just mocked, and bookings have no concept of time/slots.
+
+**Last working item**: 
+    - Last item agent was working: The agent just acknowledged the user's final production-ready roadmap and started Sprint 1 — Money + Time. The agent ran a quick backend health check and is about to start implementing real Stripe integrations and the Slot/Availability system in the NestJS backend.
+    - Status: IN PROGRESS
+    - Agent Testing Done: N
+    - Which testing method agent to use? backend testing agent / manual testing by curl
+    - User Testing Done: N
+
+**All Pending/In progress Issue list**:
+  - Issue 1: Implement Real Payments (Stripe) & Financial Lifecycle
+     - Attempted fixes: N/A (Just started)
+     - Next debug checklist: Create  entity, Stripe SDK integration, endpoints for  and .
+     - Why fix this issue and what will be achieved with the fix? Replaces mocked payments with a real financial ledger, platform fee extraction, and webhook status syncing, which is critical for a production business.
+     - Status: IN PROGRESS (Priority P0)
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? backend first, then both.
+     - Blocked on other issue: None
+  - Issue 2: Implement Booking Time System & Provider Availability (Slots)
+     - Attempted fixes: N/A
+     - Next debug checklist: Create , , , and  schemas. Implement  and .
+     - Why fix this issue and what will be achieved with the fix? Currently, bookings happen without a specific time. This adds the critical missing time layer so users can book specific available slots.
+     - Status: NOT STARTED (Priority P0)
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? backend
+     - Blocked on other issue: None
+  - Issue 3: Real Geo-Search & Map UX
+     - Attempted fixes: N/A
+     - Next debug checklist: Ensure  index on branch location, implement .
+     - Why fix this issue and what will be achieved with the fix? Replaces basic text search with proximity-based radius sorting.
+     - Status: NOT STARTED (Priority P1)
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? backend
+     - Blocked on other issue: None
+
+**In progress Task List**:
+  - Task 1: Sprint 1 (Money + Time) execution
+     - Where to resume: You need to start writing the Stripe integration logic and the Slot/Availability models in the NestJS backend.
+     - What will be achieved with this? Fulfills the Sprint 1 requirement of the user's final roadmap.
+     - Status: IN PROGRESS
+     - Should Test frontend/backend/both after fix? backend
+     - Blocked on something: Needs User API Key for Stripe.
+
+**Upcoming and Future Tasks**:
+    Upcoming Tasks:
+    - P1: Integrate Firebase Push Notifications (register devices, trigger events).
+    - P1: Complete the Expo Mobile App (Build out 15+ missing screens including quote responses, booking slots, payment screens, map screens, etc.).
+    - P2: Implement Admin/Production tuning (Ranking adjustments, fraud flags, basic analytics).
+    
+    Future Tasks:
+    - Redis caching
+    - CI/CD pipeline
+    - Multi-language support
+
+**Completed work in this session**:
+- Added Payment, Dispute, and Admin modules (mocked/basic versions) to the NestJS backend.
+- Added Production Hardening ( separation, global exception filters, rate limiting, logging).
+- Updated  TTL to 24 hours.
+- Cropped a user-provided image into two logos (, ) and successfully integrated  into the Expo app.
+- Generated  (which prompted the user to provide the final correct roadmap).
+
+**Earlier issues found/mentioned but not fixed**:
+   - Issue 1: Bookings lack a time/slot dimension.
+   - Debug checklist: Check  schema, it currently lacks relation to a specific .
+   - Why to solve this issue and what will be achieved with this? Critical business requirement.
+   - Should Test frontend/backend/both after fix: backend
+   - Is recurring issue? N
+
+**Known issue recurrence from previous fork**:
+  - Issue recurrence in previous fork: NA
+  - Recurrence count: 0
+  - Status: NOT STARTED
+
+**Code Architecture**:
+/app/
+├── backend/ (NestJS)
+│   ├── src/
+│   │   ├── modules/ (auth, users, geo, quotes, bookings, payments, disputes, admin, etc.)
+│   │   ├── shared/ (enums, guards, filters, services)
+│   │   └── main.ts
+│   └── .env (and .env.production, .env.staging)
+├── frontend/ (Expo React Native)
+│   ├── app/
+│   │   ├── (tabs)/ (index.tsx, services.tsx, quotes.tsx, garage.tsx, profile.tsx)
+│   │   ├── _layout.tsx
+│   │   ├── login.tsx
+│   │   └── register.tsx
+│   └── assets/ (logo-light.png, logo-dark.png)
+└── memory/ (PRD.md, AUDIT_REPORT.md, test_credentials.md)
+
+**Key Technical Concepts**:
+NestJS, React Native (Expo), MongoDB (Mongoose), Stripe API, Firebase Cloud Messaging, JWT Auth.
+
+**key DB schema**:
+  - : {email, password, role, deviceTokens}
+  - : {userId, branchId, status, expiresAt}
+  - : {quoteId, userId, branchId, paymentStatus, isPaid}
+  - : (To be overhauled with Stripe intents/webhooks)
+  -  / : (To be created)
+
+**changes in tech stack**:
+The project explicitly uses NestJS for the backend and Expo for the frontend. The legacy React Web PWA inside  is effectively deprecated in favor of the  Expo app.
+
+**All files of reference**:
+  -  (Contains admin/customer/provider login info)
+  -  (Agent's audit before the user provided the final roadmap)
+  -  (The cropped logo image)
+
+**Areas that need refactoring**:
+The  directory contains an old React Web app that is likely no longer needed, as development has fully shifted to the Expo mobile app in .
+
+**key api endpoints**:
+- 
+- 
+- (To be created): , , 
+
+**Critical Info for New Agent**:
+- **CRITICAL**: The user provided an extremely strict Production-Ready Roadmap in their final message. Focus exclusively on **Sprint 1 (Stripe Payments + Time/Slots)** on the NestJS backend first. Do not touch the Expo frontend until the backend APIs for Sprint 1 are complete.
+- For Stripe and Firebase, you will need to ask the user for API keys when you reach that step. Do NOT store API keys in the DB or Admin UI, keep them strictly in .
+- Always respond to the user in **Russian**.
+
+**documents and test reports created in this job**:
+  - /app/memory/test_credentials.md
+  - /app/memory/AUDIT_REPORT.md
+
+**Last 10 User Messages and any pending HUMAN messages**:
+- *User*: Provided an image containing two logos and asked to crop it and place it in the app.
+- *User*: Cursed at the agent for displaying both logos instead of cropping one out, demanded the logo be sliced, enlarged, and implemented properly.
+- *User*: Asked for a full architectural audit and comparison against the original basic PRD to see what is real and what is mocked.
+- *User*: Read the audit, corrected it (saying the product is only 60% ready, not 75%), and provided a highly detailed 4-Sprint roadmap for the final phase. (Sprint 1: Stripe & Slots. Sprint 2: Push & Geo. Sprint 3: Mobile Expo completion. Sprint 4: Admin/Economics).
+- *Pending Human Message*: None. The user is waiting for you to execute Sprint 1.
+
+**Project Health Check**:
+- Broken: Bookings lack time/slots.
+- Mocked: Payments are currently a mock state toggle, missing Stripe integration.
+
+**3rd Party Integrations**:
+- Stripe (Payments) — requires User API Key (To be implemented)
+- Firebase Cloud Messaging (Push Notifications) — requires User API Key (To be implemented)
+
+**Testing status**:
+  - Testing agent used after significant changes: NO
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created: None
+  - Known regressions: None
+
+**Credentials to test flow**:
+(From )
+- Admin:  / 
+- Customer:  / 
+- Provider:  / 
+
+**What agent forgot to execute**:
+The agent just accepted the final architectural prompt from the user but hasn't actually written the code for Sprint 1 (Stripe integration, Payment entity overhaul, and Booking Slot logic).
+
+**Debugging checklist for current issue**
+    Issue: Implement Booking Slot System
+    Backend files to check:
+    -  (Needs slot reference)
+    - Create new module:  (Create schemas , )
+    Database to check:
+    - Verify MongoDB collections for time conflicts when creating reservations.</analysis>

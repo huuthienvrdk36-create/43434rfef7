@@ -25,7 +25,15 @@ export const BookingSchema = new Schema(
       default: null,
       index: true,
     },
+    slotId: { type: Schema.Types.ObjectId, ref: 'BookingSlot', default: null, index: true },
     scheduledAt: { type: Date, default: null, index: true },
+    // Payment status tracking
+    paymentStatus: {
+      type: String,
+      enum: ['unpaid', 'payment_pending', 'paid', 'refund_pending', 'refunded'],
+      default: 'unpaid',
+    },
+    isPaid: { type: Boolean, default: false },
     status: {
       type: String,
       enum: Object.values(BookingStatus),

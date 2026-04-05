@@ -16,6 +16,8 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { DisputesModule } from './modules/disputes/disputes.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { PlatformConfigModule } from './modules/platform-config/platform-config.module';
+import { SlotsModule } from './modules/slots/slots.module';
 
 @Module({
   imports: [
@@ -23,7 +25,8 @@ import { AdminModule } from './modules/admin/admin.module';
     MongooseModule.forRoot(process.env.MONGO_URL, {
       dbName: process.env.DB_NAME || 'auto_platform',
     }),
-    NotificationsModule, // Global module - должен быть первым для EventBus
+    PlatformConfigModule, // Global module — settings & secrets
+    NotificationsModule, // Global module — EventBus
     AuthModule,
     OrganizationsModule,
     BranchesModule,
@@ -38,6 +41,7 @@ import { AdminModule } from './modules/admin/admin.module';
     PaymentsModule,
     DisputesModule,
     AdminModule,
+    SlotsModule,
   ],
 })
 export class AppModule {}

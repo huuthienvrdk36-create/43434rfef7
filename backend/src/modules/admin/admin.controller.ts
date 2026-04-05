@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -13,6 +14,7 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { UserRole } from '../../shared/enums';
+import { PlatformConfigService } from '../platform-config/platform-config.service';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -20,7 +22,10 @@ import { UserRole } from '../../shared/enums';
 @Roles(UserRole.ADMIN)
 @ApiBearerAuth()
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly configService: PlatformConfigService,
+  ) {}
 
   @Get('dashboard')
   @ApiOperation({ summary: 'Get dashboard stats' })
@@ -167,5 +172,19 @@ export class AdminController {
   @ApiOperation({ summary: 'Hide review' })
   hideReview(@Param('id') id: string) {
     return this.adminService.hideReview(id);
+  }
+
+  // ==================== Platform Config ====================
+
+  @Get('config')
+  @ApiOperation({ summary: 'Get all platform configuration' })
+  getConfig() {
+    return this.configService.getAll(false);
+  }
+
+  @Post('config')
+  @ApiOperation({ summary: 'Set a platform configuration value' })
+  setConfig(@Body() body: { key: string; value: any }) {
+    return this.configService.set(body.key, body.value);
   }
 }
